@@ -2,11 +2,7 @@ import styled from "styled-components";
 import GlobalStyles from "./styles/GlobalStyles";
 import Button from "./ui/Button";
 import Input from "./ui/Input";
-
-const H1 = styled.h1`
-  font-size: 30px;
-  font-weight: 600;
-`;
+import Heading from "./ui/Heading";
 
 const StyledApp = styled.div`
   background-color: orangered;
@@ -18,9 +14,13 @@ const App = () => {
     <>
       <GlobalStyles />
       <StyledApp>
-        <H1>Reporting Dashboard</H1>
+        <Heading as="h1">Reporting Dashboard</Heading>
+
+        <Heading as="h2">Buttons</Heading>
         <Button onClick={() => alert("Upgraded")}>Upgrade</Button>
         <Button onClick={() => alert("Build triggered")}>Build</Button>
+
+        <Heading as="h3">Forms</Heading>
         <Input type="number" placeholder="Number of Upgrades" />
       </StyledApp>
     </>
