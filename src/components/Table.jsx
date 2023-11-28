@@ -1,5 +1,8 @@
+import { useContext } from "react";
+import { createContext } from "react";
 import styled from "styled-components";
 
+//eslint-disable-next-line
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
 
@@ -17,6 +20,7 @@ const CommonRow = styled.div`
   transition: none;
 `;
 
+//eslint-disable-next-line
 const StyledHeader = styled(CommonRow)`
   padding: 1.6rem 2.4rem;
 
@@ -28,6 +32,7 @@ const StyledHeader = styled(CommonRow)`
   color: var(--color-grey-600);
 `;
 
+//eslint-disable-next-line
 const StyledRow = styled(CommonRow)`
   padding: 1.2rem 2.4rem;
 
@@ -36,10 +41,12 @@ const StyledRow = styled(CommonRow)`
   }
 `;
 
+//eslint-disable-next-line
 const StyledBody = styled.section`
   margin: 0.4rem 0;
 `;
 
+//eslint-disable-next-line
 const Footer = styled.footer`
   background-color: var(--color-grey-50);
   display: flex;
@@ -52,9 +59,49 @@ const Footer = styled.footer`
   }
 `;
 
+//eslint-disable-next-line
 const Empty = styled.p`
   font-size: 1.6rem;
   font-weight: 500;
   text-align: center;
   margin: 2.4rem;
 `;
+
+const TableContext = createContext();
+
+function Table({ columns, children }) {
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">{children}</StyledTable>
+    </TableContext.Provider>
+  );
+}
+
+function Header({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledHeader role="row" columns={columns} as="header">
+      {children}
+    </StyledHeader>
+  );
+}
+function Row({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledRow role="row" columns={columns}>
+      {children}
+    </StyledRow>
+  );
+}
+
+function Body({ data, render }) {
+  if (!data.length) return <Empty>No Data available</Empty>;
+  return <StyledBody>{data.map(render)}</StyledBody>;
+}
+
+Table.Header = Header;
+Table.Row = Row;
+Table.Body = Body;
+Table.Footer = Footer;
+
+export default Table;
